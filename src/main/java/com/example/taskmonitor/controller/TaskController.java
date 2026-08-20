@@ -6,10 +6,7 @@ import com.example.taskmonitor.entity.Task;
 import com.example.taskmonitor.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tasks")
@@ -24,5 +21,10 @@ public class TaskController {
     @PostMapping
     public TaskResponse create(@Valid @RequestBody CreateTaskRequest request) {
         return taskService.create(request);
+    }
+
+    @GetMapping("/{id}")
+    public TaskResponse read(@PathVariable Long id) {
+        return  taskService.findById(id);
     }
 }

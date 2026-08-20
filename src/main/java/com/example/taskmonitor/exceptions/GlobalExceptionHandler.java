@@ -6,7 +6,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiErrors handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiErrors> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -23,6 +22,14 @@ public class GlobalExceptionHandler {
                         error -> error.getDefaultMessage()
                 ));
 
-        return new ApiErrors(HttpStatus.BAD_REQUEST.value(), "Validation Failed", errors);
+        ApiErrors error = new ApiErrors(HttpStatus.BAD_REQUEST.value(), "Validation Failed", errors);
+
+        return ResponseEntity.badRequest().body(error);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ApiErrors> handleTaskNotFoundException(TaskNotFoundException ex) {
+        ApiErrors error = new ApiErrors(HttpStatus.NOT_FOUND.value(), ex.getMessage(), null);
+        return ResponseEntity.badRequest().body(error);
     }
 }

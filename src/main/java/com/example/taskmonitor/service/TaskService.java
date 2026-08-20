@@ -3,6 +3,7 @@ package com.example.taskmonitor.service;
 import com.example.taskmonitor.dto.CreateTaskRequest;
 import com.example.taskmonitor.dto.TaskResponse;
 import com.example.taskmonitor.entity.Task;
+import com.example.taskmonitor.exceptions.TaskNotFoundException;
 import com.example.taskmonitor.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,10 @@ public class TaskService {
 
         Task savedTask = taskRepository.save(task);
         return TaskResponse.from(savedTask);
+    }
+
+    public TaskResponse findById(Long id) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        return TaskResponse.from(task);
     }
 }
