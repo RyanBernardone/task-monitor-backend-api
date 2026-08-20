@@ -37,5 +37,17 @@ public class Task {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void update(
+            String title,
+            String description,
+            TaskPriority priority,
+            LocalDate dueDate
+    ) {
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.dueDate = dueDate;
+    }
+
     protected Task() {}
 }
