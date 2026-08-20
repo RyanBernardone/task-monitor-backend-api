@@ -4,6 +4,8 @@ import com.example.taskmonitor.enums.TaskPriority;
 import com.example.taskmonitor.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +26,12 @@ public class Task {
     private TaskStatus status;
 
     private LocalDate dueDate;
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     public Task(String title, String description, TaskPriority priority, LocalDate dueDate) {
