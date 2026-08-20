@@ -1,6 +1,7 @@
 package com.example.taskmonitor.service;
 
 import com.example.taskmonitor.dto.CreateTaskRequest;
+import com.example.taskmonitor.dto.TaskResponse;
 import com.example.taskmonitor.entity.Task;
 import com.example.taskmonitor.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public Task create(CreateTaskRequest request) {
+    public TaskResponse create(CreateTaskRequest request) {
         Task task = new Task(
                 request.getTitle(),
                 request.getDescription(),
@@ -22,6 +23,7 @@ public class TaskService {
                 request.getDueDate()
         );
 
-        return taskRepository.save(task);
+        Task savedTask = taskRepository.save(task);
+        return TaskResponse.from(savedTask);
     }
 }

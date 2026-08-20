@@ -3,10 +3,12 @@ package com.example.taskmonitor.entity;
 import com.example.taskmonitor.enums.TaskPriority;
 import com.example.taskmonitor.enums.TaskStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 public class Task {
     @Id

@@ -1,8 +1,10 @@
 package com.example.taskmonitor.controller;
 
 import com.example.taskmonitor.dto.CreateTaskRequest;
+import com.example.taskmonitor.dto.TaskResponse;
 import com.example.taskmonitor.entity.Task;
 import com.example.taskmonitor.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +22,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task create(@RequestBody CreateTaskRequest request) {
+    public TaskResponse create(@Valid @RequestBody CreateTaskRequest request) {
         return taskService.create(request);
     }
 }
