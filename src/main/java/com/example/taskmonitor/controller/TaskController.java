@@ -3,10 +3,9 @@ package com.example.taskmonitor.controller;
 import com.example.taskmonitor.dto.CreateTaskRequest;
 import com.example.taskmonitor.dto.TaskResponse;
 import com.example.taskmonitor.dto.UpdateTaskRequest;
-import com.example.taskmonitor.entity.Task;
 import com.example.taskmonitor.service.TaskService;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +21,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public TaskResponse create(@Valid @RequestBody CreateTaskRequest request) {
         return taskService.create(request);
     }
@@ -39,5 +39,11 @@ public class TaskController {
     @PutMapping("/{id}")
     public TaskResponse update(@PathVariable Long id, @Valid @RequestBody UpdateTaskRequest request) {
         return taskService.update(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        taskService.delete(id);
     }
 }

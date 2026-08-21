@@ -6,6 +6,7 @@ import com.example.taskmonitor.dto.UpdateTaskRequest;
 import com.example.taskmonitor.entity.Task;
 import com.example.taskmonitor.exceptions.TaskNotFoundException;
 import com.example.taskmonitor.repository.TaskRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,5 +53,10 @@ public class TaskService {
 
         Task updatedTask = taskRepository.save(task);
         return TaskResponse.from(updatedTask);
+    }
+
+    public void delete(Long id) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        taskRepository.delete(task);
     }
 }
