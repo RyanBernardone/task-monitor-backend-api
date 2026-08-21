@@ -2,6 +2,7 @@ package com.example.taskmonitor.entity;
 
 import com.example.taskmonitor.enums.TaskPriority;
 import com.example.taskmonitor.enums.TaskStatus;
+import com.example.taskmonitor.exceptions.InvalidTaskStatusTransitionException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -57,4 +58,22 @@ public class Task {
     }
 
     protected Task() {}
+
+    public void changeStatus(TaskStatus newStatus) {
+        switch (newStatus) {
+            case TODO -> {
+                if (newStatus == TaskStatus.IN_PROGRESS || newStatus == TaskStatus.CANCELLED) {
+                    this.status = newStatus;
+                    return;
+                }
+            }
+            case IN_PROGRESS -> {
+                if (newStatus == TaskStatus.DONE || newStatus == TaskStatus.CANCELLED) {
+                    this.status = newStatus;
+                    return;
+                }
+            }
+        }
+        throw new InvalidTaskStatusTransitionException(this.status, newStatus);
+    }
 }

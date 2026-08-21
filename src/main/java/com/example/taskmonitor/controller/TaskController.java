@@ -3,6 +3,7 @@ package com.example.taskmonitor.controller;
 import com.example.taskmonitor.dto.CreateTaskRequest;
 import com.example.taskmonitor.dto.TaskResponse;
 import com.example.taskmonitor.dto.UpdateTaskRequest;
+import com.example.taskmonitor.dto.UpdateTaskStatusRequest;
 import com.example.taskmonitor.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -45,5 +46,10 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         taskService.delete(id);
+    }
+
+    @PatchMapping("/{id}/status")
+    public TaskResponse updateStatus(@PathVariable Long id, @Valid @RequestBody UpdateTaskStatusRequest request) {
+        return taskService.changeStatus(id, request.getStatus());
     }
 }

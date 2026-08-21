@@ -4,6 +4,7 @@ import com.example.taskmonitor.dto.CreateTaskRequest;
 import com.example.taskmonitor.dto.TaskResponse;
 import com.example.taskmonitor.dto.UpdateTaskRequest;
 import com.example.taskmonitor.entity.Task;
+import com.example.taskmonitor.enums.TaskStatus;
 import com.example.taskmonitor.exceptions.TaskNotFoundException;
 import com.example.taskmonitor.repository.TaskRepository;
 import org.springframework.http.ResponseEntity;
@@ -58,5 +59,12 @@ public class TaskService {
     public void delete(Long id) {
         Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         taskRepository.delete(task);
+    }
+
+    public TaskResponse changeStatus(Long id, TaskStatus newStatus) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        task.changeStatus(newStatus);
+        Task updatedTask = taskRepository.save(task);
+        return TaskResponse.from(updatedTask);
     }
 }

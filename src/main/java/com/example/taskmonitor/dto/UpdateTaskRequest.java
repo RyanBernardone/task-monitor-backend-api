@@ -21,4 +21,6 @@ public class UpdateTaskRequest {
     @NotNull
     private TaskPriority priority;
     private LocalDate dueDate;
+
+    public UpdateTaskRequest() {}
 }
